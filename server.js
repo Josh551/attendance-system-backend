@@ -1,30 +1,21 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-
+import express from "express";
+import connectDB from "./config/keys.js";
+import dotenv from "dotenv";
+import path from "path";
 
 const app = express();
 
+dotenv.config();
+connectDB();
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.get("/",function(req,res){
-  res.sendFile(__dirname+"/index.html");
-    });
+const __dirname = path.resolve();
+app.get("/", function (req, res) {
+  res.sendFile(__dirname + "/index.html");
+});
 
-const db = require("./config/keys").mongoURI;
+const PORT = process.env.PORT || 5000;
 
-
-mongoose
-  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.log(err));
-
-
-
-
-
-
-const port = process.env.PORT || 5000;
-
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(
+  PORT,
+  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
+);
