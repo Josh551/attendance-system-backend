@@ -1,9 +1,8 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose"
 
 const attendanceSchema = mongoose.Schema(
   {
-    classes: 
-      {
+    classes: {
       type: Schema.Types.ObjectId,
       ref: "class",
     },
@@ -16,11 +15,11 @@ const attendanceSchema = mongoose.Schema(
       },
     ],
   },
-    {
-      timestamps: true,
-    },
+  {
+    timestamps: true,
+  }
 )
 
-const Attendance = mongoose.model("attendance", attendanceSchema);
+const Attendance = mongoose.model("attendance", attendanceSchema)
 
-export default Attendance;
+export default Attendance

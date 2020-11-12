@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 
 const teacherSchema = mongoose.Schema({
   empId: {
@@ -8,8 +8,7 @@ const teacherSchema = mongoose.Schema({
   },
   fullName: {
     type: String,
-    required: true,
-    unique: true,
+    required: false,
   },
   email: {
     type: String,
@@ -19,18 +18,24 @@ const teacherSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  classes: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "class",
-    required: false,
-  },
+  classes: [
+    {
+      classId: { type: String, required: true },
+      subjectName: { type: String, required: true },
+      class: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "class",
+      },
+    },
+  ],
   addedBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "admins",
-    required: false,
+    ref: "admin",
+    required: true,
   },
-});
+})
 
-const Teacher = mongoose.model("teachers", teacherSchema);
+const Teacher = mongoose.model("teachers", teacherSchema)
 
-export default Teacher;
+export default Teacher
