@@ -1,28 +1,31 @@
 import express from "express";
 import connectDB from "./config/keys.js";
-import { notFound, errorHandler } from './middleware/errorMiddleware.js'
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import path from "path";
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+import adminRoutes from "./routes/adminRoutes.js";
+import classRoutes from "./routes/classRoutes.js";
 
 dotenv.config();
 connectDB();
-app.use(express.json());
-
-import adminRoutes from './routes/adminRoutes.js'
 
 const __dirname = path.resolve();
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/index.html");
 });
 
+app.use("/api/admin", adminRoutes);
+app.use("/api/class", classRoutes);
 
-app.use('/api/admin', adminRoutes)
 
-app.use(notFound)
-app.use(errorHandler)
-
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
