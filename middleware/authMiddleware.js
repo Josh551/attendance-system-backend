@@ -1,33 +1,69 @@
-import jwt from 'jsonwebtoken'
-import asyncHandler from 'express-async-handler'
-import Admin from '../models/adminModel.js'
+import jwt from 'jsonwebtoken';
+import asyncHandler from 'express-async-handler';
+import Admin from '../models/adminModel.js';
+import Teacher from '../models/teacherModel.js';
 
 const protect = asyncHandler(async (req, res, next) => {
-  let token
+  let token;
 
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
   ) {
     try {
-      token = req.headers.authorization.split(' ')[1]
+      token = req.headers.authorization.split(' ')[1];
 
-      const decoded = jwt.verify(token, "secretOrKey")
+      const decoded = jwt.verify(token, 'secretOrKey');
 
-      req.admin = await Admin.findById(decoded.id).select('-password')
-
-      next()
+      let userData =
+        (await Admin.findById(decoded.id).select('-password')) ||
+        (await Teacher.findById(decoded.id).select('-password'));
+      if (!userData) {
+        res.status(401);
+        throw new Error('Not authorized, Not Admin');
+      }
+      next();
     } catch (error) {
-      console.error(error)
-      res.status(401)
-      throw new Error('Not authorized, token failed')
+      console.error(error);
+      res.status(401);
+      throw new Error('Not authorized, token failed');
     }
   }
 
   if (!token) {
-    res.status(401)
-    throw new Error('Not authorized, no token')
+    res.status(401);
+    throw new Error('Not authorized, no token');
   }
-})
+});
 
-export { protect }
+const admin = asyncHandler(async (req, res, next) => {
+  let token;
+
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    try {
+      token = req.headers.authorization.split(' ')[1];
+
+      const decoded = jwt.verify(token, 'secretOrKey');
+
+      let adminData = await Admin.findById(decoded.id).select('-password');
+      if (!adminData) {
+        res.status(401);
+        throw new Error('Not authorized, Not Admin');
+      }
+      next();
+    } catch (error) {
+      console.error(error);
+      res.status(401);
+      throw new Error(error.message);
+    }
+  }
+
+  if (!token) {
+    res.status(401);
+    throw new Error('Not authorized, no token');
+  }
+});
+export { protect, admin };

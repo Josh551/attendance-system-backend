@@ -1,6 +1,5 @@
 import asyncHandler from 'express-async-handler';
 import Student from '../models/studentModel.js';
-import Class from '../models/classModel.js';
 
 const registerStudent = asyncHandler(async (req, res) => {
   const { classes, usn, email, fullName, images } = req.body;
@@ -49,4 +48,17 @@ const getStudentProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerStudent, getStudents, getStudentProfile };
+const getStudentsByClass = asyncHandler(async (req, res) => {
+  const students = await Student.find({ classes: req.params.class_id });
+
+  if (students) {
+    res.json({
+      students,
+    });
+  } else {
+    res.status(404);
+    throw new Error('Student not found');
+  }
+});
+
+export { registerStudent, getStudents, getStudentProfile, getStudentsByClass };

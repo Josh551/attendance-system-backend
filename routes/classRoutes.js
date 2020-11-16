@@ -1,19 +1,19 @@
-import express from "express"
-const router = express.Router()
+import express from 'express';
+const router = express.Router();
 import {
   enteredClasses,
   deletedClasses,
   getClasses,
   getClass,
   updateClass,
-} from "../controllers/classController.js"
-import { protect } from "../middleware/authMiddleware.js"
+} from '../controllers/classController.js';
+import { protect, admin } from '../middleware/authMiddleware.js';
 
-router.route("/add").post(protect, enteredClasses)
+router.route('/add').post(protect, admin, enteredClasses);
 router
-  .route("/:id")
+  .route('/:id')
   .get(protect, getClass)
-  .delete(protect, deletedClasses)
-  .put(protect, updateClass)
-router.route("/").get(protect, getClasses)
-export default router
+  .delete(protect, admin, deletedClasses)
+  .put(protect, admin, updateClass);
+router.route('/').get(admin, getClasses);
+export default router;
