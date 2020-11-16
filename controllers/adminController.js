@@ -69,3 +69,4 @@ const getAdminProfile = asyncHandler(async (req, res) => {
 });
 
 export { authAdmin, registerAdmin, getAdminProfile };
+//Admin
