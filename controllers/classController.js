@@ -46,6 +46,25 @@ const deletedClasses = asyncHandler(async (req, res) => {
   }
 })
 
+const updateClass = asyncHandler(async (req, res) => {
+  const { classId, subjectName, semester, section, branch } = req.body
+
+  const classes = await Class.findById(req.params.id)
+
+  if (classes) {
+    classes.classId = classId
+    classes.subjectName = subjectName
+    classes.semester = semester
+    classes.section = section
+    product.branch = branch
+
+    const updatedProduct = await product.save()
+    res.json(updatedClass)
+  } else {
+    res.status(404)
+    throw new Error("Class not found")
+  }
+})
 const getClass = asyncHandler(async (req, res) => {
   const classes = await Class.findById(req.params.id)
   res.json(classes)
@@ -56,4 +75,4 @@ const getClasses = asyncHandler(async (req, res) => {
   res.json(classes)
 })
 
-export { enteredClasses, deletedClasses, getClasses, getClass }
+export { enteredClasses, deletedClasses, getClasses, getClass,updateClass }

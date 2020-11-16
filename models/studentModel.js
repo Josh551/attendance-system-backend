@@ -3,16 +3,9 @@ import mongoose from "mongoose"
 const studentSchema = mongoose.Schema({
   classes: [
     {
-      classId: { type: String, required: true },
-      subjectName: { type: String, required: true },
-      semester: { type: Number, required: true },
-      section: { type: String, required: true },
-      branch: { type: String, required: true },
-      class: {
+     
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
         ref: "class",
-      },
     },
   ],
   usn: {

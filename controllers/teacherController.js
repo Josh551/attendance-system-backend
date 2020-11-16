@@ -46,6 +46,11 @@ const registerTeacher = asyncHandler(async (req, res) => {
   }
 })
 
+const getTeachers = asyncHandler(async (req, res) => {
+  const teachers = await Teacher.find({}).populate('admin', 'empId fullname')
+  res.json(teachers)
+})
+
 const getTeacherProfile = asyncHandler(async (req, res) => {
   const teacher = await Teacher.findById(req.params.id).populate(
     "admin",
@@ -62,4 +67,16 @@ const getTeacherProfile = asyncHandler(async (req, res) => {
   }
 })
 
-export { authTeacher, registerTeacher, getTeacherProfile }
+const deletedTeacher = asyncHandler(async (req, res) => {
+  const teachers = await Teacher.findById(req.params.id)
+
+  if (teachers) {
+    await teacher.remove()
+    res.json({ message: "Teacher removed by admin" })
+  } else {
+    res.status(404)
+    throw new Error("Teacher not found")
+  }
+})
+
+export { authTeacher, registerTeacher,getTeachers, getTeacherProfile,deletedTeacher }

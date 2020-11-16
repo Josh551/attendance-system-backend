@@ -1,11 +1,11 @@
-import asyncHandler from "express-async-handler"
-import generateToken from "../utils/generateToken.js"
-import Admin from "../models/adminModel.js"
+import asyncHandler from 'express-async-handler';
+import generateToken from '../utils/generateToken.js';
+import Admin from '../models/adminModel.js';
 
 const authAdmin = asyncHandler(async (req, res) => {
-  const { email, password } = req.body
+  const { email, password } = req.body;
 
-  const admin = await Admin.findOne({ email })
+  const admin = await Admin.findOne({ email });
 
   if (admin && (await admin.matchPassword(password))) {
     res.json({
@@ -13,23 +13,22 @@ const authAdmin = asyncHandler(async (req, res) => {
       empId: admin.empId,
       fullname: admin.name,
       email: admin.email,
-      isAdmin: admin.isAdmin,
       token: generateToken(admin._id),
-    })
+    });
   } else {
-    res.status(401)
-    throw new Error("Invalid email or password")
+    res.status(401);
+    throw new Error('Invalid email or password');
   }
-})
+});
 
 const registerAdmin = asyncHandler(async (req, res) => {
-  const { empId, fullname, email, password } = req.body
+  const { empId, fullname, email, password } = req.body;
 
-  const adminExists = await Admin.findOne({ email })
+  const adminExists = await Admin.findOne({ email });
 
   if (adminExists) {
-    res.status(400)
-    throw new Error("Admin already exists")
+    res.status(400);
+    throw new Error('Admin already exists');
   }
 
   const admin = await Admin.create({
@@ -37,7 +36,7 @@ const registerAdmin = asyncHandler(async (req, res) => {
     fullname,
     email,
     password,
-  })
+  });
 
   if (admin) {
     res.status(201).json({
@@ -46,15 +45,15 @@ const registerAdmin = asyncHandler(async (req, res) => {
       empId: admin.empId,
       email: admin.email,
       token: generateToken(admin._id),
-    })
+    });
   } else {
-    res.status(400)
-    throw new Error("Invalid user data")
+    res.status(400);
+    throw new Error('Invalid user data');
   }
-})
+});
 
 const getAdminProfile = asyncHandler(async (req, res) => {
-  const admin = await Admin.findById(req.admin._id)
+  const admin = await Admin.findById(req.admin._id);
 
   if (admin) {
     res.json({
@@ -62,11 +61,11 @@ const getAdminProfile = asyncHandler(async (req, res) => {
       empId: admin.empId,
       fullname: admin.name,
       email: admin.email,
-    })
+    });
   } else {
-    res.status(404)
-    throw new Error("Admin not found")
+    res.status(404);
+    throw new Error('Admin not found');
   }
-})
+});
 
-export { authAdmin, registerAdmin, getAdminProfile }
+export { authAdmin, registerAdmin, getAdminProfile };

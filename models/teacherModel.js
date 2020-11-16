@@ -20,8 +20,6 @@ const teacherSchema = mongoose.Schema({
   },
   classes: [
     {
-      classId: { type: String, required: true },
-      subjectName: { type: String, required: true },
       class: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,

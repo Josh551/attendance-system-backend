@@ -1,11 +1,11 @@
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcryptjs';
 
 const teachers = [
   {
     empId: 'EMP2345',
     fullName: 'Surya Prakash',
     email: 'suryaprakash@gmail.com',
-    password: bcrypt.hashSync('123456', 10)
+    password: bcrypt.hashSync('123456', 10),
   },
 ];
 
