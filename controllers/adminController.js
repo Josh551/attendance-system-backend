@@ -2,6 +2,8 @@ import asyncHandler from 'express-async-handler';
 import generateToken from '../utils/generateToken.js';
 import Admin from '../models/adminModel.js';
 
+// @route   POST /api/admin/login
+// @access  Private/Admin
 const authAdmin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -21,6 +23,8 @@ const authAdmin = asyncHandler(async (req, res) => {
   }
 });
 
+// @route   POST /api/admin/register
+// @access  Private/Admin
 const registerAdmin = asyncHandler(async (req, res) => {
   const { empId, fullname, email, password } = req.body;
 
@@ -52,6 +56,8 @@ const registerAdmin = asyncHandler(async (req, res) => {
   }
 });
 
+// @route   GET /api/admin/profile
+// @access  Private
 const getAdminProfile = asyncHandler(async (req, res) => {
   const admin = await Admin.findById(req.admin._id);
 

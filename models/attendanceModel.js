@@ -1,25 +1,24 @@
-import mongoose from "mongoose"
+import mongoose from 'mongoose';
 
 const attendanceSchema = mongoose.Schema(
   {
+    expire_at: { type: Date, default: Date.now, expires: '180d' },
     classes: {
-      type: Schema.Types.ObjectId,
-      ref: "class",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'class',
     },
     absent: [
       {
-        student: {
-          type: Schema.Types.ObjectId,
-          ref: "students",
-        },
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'students',
       },
     ],
   },
   {
     timestamps: true,
   }
-)
+);
 
-const Attendance = mongoose.model("attendance", attendanceSchema)
+const Attendance = mongoose.model('attendance', attendanceSchema);
 
-export default Attendance
+export default Attendance;

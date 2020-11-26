@@ -1,6 +1,8 @@
 import asyncHandler from 'express-async-handler';
 import Student from '../models/studentModel.js';
 
+// @route   POST /api/student/register
+// @access  Private/Admin
 const registerStudent = asyncHandler(async (req, res) => {
   const { classes, usn, email, fullName, images } = req.body;
 
@@ -30,11 +32,15 @@ const registerStudent = asyncHandler(async (req, res) => {
   }
 });
 
+// @route   GET /api/student
+// @access  Public
 const getStudents = asyncHandler(async (req, res) => {
   const students = await Student.find({});
   res.json(students);
 });
 
+// @route   GET /api/student/:id
+// @access  Private
 const getStudentProfile = asyncHandler(async (req, res) => {
   const student = await Student.findById(req.params.id);
 
@@ -48,6 +54,8 @@ const getStudentProfile = asyncHandler(async (req, res) => {
   }
 });
 
+// @route   GET /api/student/byClass/:class_id
+// @access  Private
 const getStudentsByClass = asyncHandler(async (req, res) => {
   const students = await Student.find({ classes: req.params.class_id });
 

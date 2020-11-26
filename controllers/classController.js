@@ -1,6 +1,8 @@
 import asyncHandler from 'express-async-handler';
 import Class from '../models/classModel.js';
 
+// @route   POST /api/classes/add
+// @access  Private/Admin
 const enteredClasses = asyncHandler(async (req, res) => {
   const { classId, subjectName, semester, section, branch } = req.body;
 
@@ -34,6 +36,8 @@ const enteredClasses = asyncHandler(async (req, res) => {
   }
 });
 
+// @route   DELETE /api/classes/:id
+// @access  Private/Admin
 const deletedClasses = asyncHandler(async (req, res) => {
   const classes = await Class.findById(req.params.id);
 
@@ -46,6 +50,8 @@ const deletedClasses = asyncHandler(async (req, res) => {
   }
 });
 
+// @route   PUT /api/classes/:id
+// @access  Private/Admin
 const updateClass = asyncHandler(async (req, res) => {
   const { classId, subjectName, semester, section, branch } = req.body;
 
@@ -65,6 +71,9 @@ const updateClass = asyncHandler(async (req, res) => {
     throw new Error('Class not found');
   }
 });
+
+// @route   GET /api/classes/:id
+// @access  Private/Admin
 const getClass = asyncHandler(async (req, res) => {
   const cls = await Class.findById(req.params.id);
   if (cls) {
@@ -75,6 +84,8 @@ const getClass = asyncHandler(async (req, res) => {
   }
 });
 
+// @route   GET /api/classes
+// @access  Private/Admin
 const getClasses = asyncHandler(async (req, res) => {
   const classes = await Class.find({});
   res.json(classes);

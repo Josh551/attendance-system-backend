@@ -3,6 +3,8 @@ import generateToken from '../utils/generateToken.js';
 import Teacher from '../models/teacherModel.js';
 import Admin from '../models/adminModel.js';
 
+// @route   POST /api/teacher/login
+// @access  Public
 const authTeacher = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -22,6 +24,8 @@ const authTeacher = asyncHandler(async (req, res) => {
   }
 });
 
+// @route   POST /api/teacher/register
+// @access  Private/Admin
 const registerTeacher = asyncHandler(async (req, res) => {
   const { empId, email, fullName, password } = req.body;
 
@@ -51,11 +55,15 @@ const registerTeacher = asyncHandler(async (req, res) => {
   }
 });
 
+// @route   GET /api/teacher/:id
+// @access  Private/Admin
 const getTeachers = asyncHandler(async (req, res) => {
   const teachers = await Teacher.find({}).populate('admin', 'empId fullname');
   res.json(teachers);
 });
 
+// @route   GET /api/teacher/:id
+// @access  Private
 const getTeacherProfile = asyncHandler(async (req, res) => {
   const teacher = await Teacher.findById(req.params.id).populate(
     'admin',
@@ -72,6 +80,8 @@ const getTeacherProfile = asyncHandler(async (req, res) => {
   }
 });
 
+// @route   DELETE /api/teacher/:id
+// @access  Private
 const deletedTeacher = asyncHandler(async (req, res) => {
   const teachers = await Teacher.findById(req.params.id);
 
