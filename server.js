@@ -4,10 +4,12 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import path from 'path';
+import cors from 'cors';
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 
 import adminRoutes from './routes/adminRoutes.js';
 import classRoutes from './routes/classRoutes.js';
