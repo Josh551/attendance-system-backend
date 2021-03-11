@@ -66,4 +66,35 @@ const admin = asyncHandler(async (req, res, next) => {
     throw new Error('Not authorized, no token');
   }
 });
-export { protect, admin };
+
+const teacher = asyncHandler(async (req, res, next) => {
+  let token;
+
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    try {
+      token = req.headers.authorization.split(' ')[1];
+
+      const decoded = jwt.verify(token, 'secretOrKey');
+
+      let teacherData = await Teacher.findById(decoded.id).select('-password');
+      if (!teacherData) {
+        res.status(401);
+        throw new Error('Not authorized, Not teacher');
+      }
+      next();
+    } catch (error) {
+      console.error(error);
+      res.status(401);
+      throw new Error(error.message);
+    }
+  }
+
+  if (!token) {
+    res.status(401);
+    throw new Error('Not authorized, no token');
+  }
+});
+export { protect, admin, teacher };

@@ -11,10 +11,6 @@ const authAdmin = asyncHandler(async (req, res) => {
 
   if (admin && (await admin.matchPassword(password))) {
     res.json({
-      _id: admin._id,
-      empId: admin.empId,
-      fullname: admin.name,
-      email: admin.email,
       token: generateToken(admin._id),
     });
   } else {

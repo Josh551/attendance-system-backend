@@ -1,7 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import generateToken from '../utils/generateToken.js';
 import Teacher from '../models/teacherModel.js';
-import Admin from '../models/adminModel.js';
 
 // @route   POST /api/teacher/login
 // @access  Public
@@ -12,10 +11,6 @@ const authTeacher = asyncHandler(async (req, res) => {
 
   if (teacher) {
     res.json({
-      empId: teacher.empId,
-      email: teacher.email,
-      fullName: teacher.fullName,
-      addedBy: teacher.addedBy,
       token: generateToken(teacher._id),
     });
   } else {
@@ -62,6 +57,17 @@ const getTeachers = asyncHandler(async (req, res) => {
   res.json(teachers);
 });
 
+// @route   Get /api/teacher/profile
+// @access  Private
+const getTeacherDetails = asyncHandler(async (req, res) => {
+  const teacher = await Teacher.findById(req.teacher._id);
+  if (teacher) {
+    res.json(teacher);
+  } else {
+    res.status(404);
+    throw new Error('Teacher not Found');
+  }
+});
 // @route   GET /api/teacher/:id
 // @access  Private
 const getTeacherProfile = asyncHandler(async (req, res) => {
@@ -99,5 +105,6 @@ export {
   registerTeacher,
   getTeachers,
   getTeacherProfile,
+  getTeacherDetails,
   deletedTeacher,
 };

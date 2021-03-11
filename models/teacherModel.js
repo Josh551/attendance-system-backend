@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose from 'mongoose';
 
 const teacherSchema = mongoose.Schema({
   empId: {
@@ -20,20 +20,18 @@ const teacherSchema = mongoose.Schema({
   },
   classes: [
     {
-      class: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: "class",
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'class',
     },
   ],
   addedBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "admin",
+    ref: 'admin',
     required: true,
   },
-})
+});
 
-const Teacher = mongoose.model("teachers", teacherSchema)
+const Teacher = mongoose.model('teachers', teacherSchema);
 
-export default Teacher
+export default Teacher;
