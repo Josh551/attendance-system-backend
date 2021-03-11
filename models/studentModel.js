@@ -1,12 +1,11 @@
 import mongoose from 'mongoose';
 
 const studentSchema = mongoose.Schema({
-  classes: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'class',
-    },
-  ],
+  classes: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'class',
+  },
+
   usn: {
     type: String,
     unique: true,
