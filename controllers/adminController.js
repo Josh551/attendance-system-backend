@@ -19,6 +19,18 @@ const authAdmin = asyncHandler(async (req, res) => {
   }
 });
 
+// @route   GET /api/class/:id
+// @access  Private/Admin
+const getClass = asyncHandler(async (req, res) => {
+  const cls = await Class.findById(req.params.id);
+  if (cls) {
+    res.json(cls);
+  } else {
+    res.status(404);
+    throw new Error('Class not found');
+  }
+});
+
 // @route   POST /api/admin/register
 // @access  Private/Admin
 const registerAdmin = asyncHandler(async (req, res) => {
@@ -71,4 +83,3 @@ const getAdminProfile = asyncHandler(async (req, res) => {
 });
 
 export { authAdmin, registerAdmin, getAdminProfile };
-//Admin

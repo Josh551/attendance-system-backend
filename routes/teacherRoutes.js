@@ -7,6 +7,7 @@ import {
   getTeacherDetails,
   getTeachers,
   deletedTeacher,
+  updatePassword,
 } from '../controllers/teacherController.js';
 import { protect, teacher, admin } from '../middleware/authMiddleware.js';
 
@@ -19,6 +20,7 @@ router
   .get(protect, admin, getTeacherProfile)
   .delete(protect, admin, deletedTeacher);
 router.get('/', getTeachers);
+router.route('/forgot/:id').put(protect, admin, updatePassword);
 export default router;
 
 //1.
