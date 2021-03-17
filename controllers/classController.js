@@ -63,7 +63,7 @@ const updateClass = asyncHandler(async (req, res) => {
 		classes.subjectName = subjectName;
 		classes.semester = semester;
 		classes.section = section;
-		product.branch = branch;
+		classes.branch = branch;
 
 		const updatedClass = await classes.save();
 		res.json(updatedClass);
