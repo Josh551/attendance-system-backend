@@ -106,9 +106,9 @@ const getTeacherProfile = asyncHandler(async (req, res) => {
 // @route   DELETE /api/teacher/:id
 // @access  Private
 const deletedTeacher = asyncHandler(async (req, res) => {
-  const teachers = await Teacher.findById(req.params.id);
+  const teacher = await Teacher.findById(req.params.id);
 
-  if (teachers) {
+  if (teacher) {
     await teacher.remove();
     res.json({ message: 'Teacher removed by admin' });
   } else {
