@@ -3,6 +3,7 @@ import generateToken from '../utils/generateToken.js';
 import Admin from '../models/adminModel.js';
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
+import generator from 'generate-password';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -86,12 +87,20 @@ const getAdminProfile = asyncHandler(async (req, res) => {
   }
 });
 
+// @route   PUT /api/admin/forgotPassword
+// @access  Public/Admin
 const changePassword = asyncHandler(async (req, res) => {
   const { email } = req.body;
   const admin = await Admin.findOne({ email });
-  const token = crypto.randomBytes(20).toString('hex');
+  const otp = generator.generate({
+    length: 6,
+    numbers: true,
+    uppercase: true,
+    lowercase: false,
+  });
+
   if (admin) {
-    admin.resetPasswordToken = token;
+    admin.resetPasswordOTP = otp;
     const changePassword = await admin.save();
     res.json(changePassword);
   } else {
@@ -118,13 +127,16 @@ const changePassword = asyncHandler(async (req, res) => {
   });
 
   const mailOptions = {
-    from: 'noreply@gmail.com',
+    from: 'Tech Adminstrator <attendancesystemconfig@gmail.com>',
     to: `${admin.email}`,
-    subject: 'Link To Reset Password',
-    text:
+    subject: 'OTP To Reset Password',
+    html:
       'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-      'Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n' +
-      `http://localhost:5000/api/admin/reset/${token}\n\n` +
+      'Please enter the code in the app,within ten minutes of receiving it.\n' +
+      '<h3>OTP for resetting is </h3>' +
+      "<h1 style='font-weight:bold;'>" +
+      otp +
+      '</h1>' +
       'If you did not request this, please ignore this email and your password will remain unchanged.\n',
   };
 
@@ -140,10 +152,14 @@ const changePassword = asyncHandler(async (req, res) => {
   });
 });
 
+// @route   PUT /api/admin/reset
+// @access  Public/Admin
 const resetPassword = asyncHandler(async (req, res) => {
-  const { password } = req.body;
+  const { password, otp } = req.body;
 
-  const admin = await Admin.findOne({ resetPasswordToken: req.params.token });
+  const admin = await Admin.findOne({
+    resetPasswordOTP: otp,
+  });
 
   if (admin) {
     admin.password = password;
@@ -152,7 +168,7 @@ const resetPassword = asyncHandler(async (req, res) => {
     res.json(updatedPassword);
   } else {
     res.status(404);
-    throw new Error('Admin not found');
+    throw new Error('Admin not found or OTP expired');
   }
 });
 

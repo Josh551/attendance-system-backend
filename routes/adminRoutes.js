@@ -14,7 +14,7 @@ router.route('/register').post(registerAdmin);
 router.get('/test', (req, res) => res.json({ msg: 'Users Works' }));
 router.route('/profile').get(protect, admin, getAdminProfile);
 router.put('/forgotPassword', changePassword);
-router.put('/reset/:token', resetPassword);
+router.put('/reset', resetPassword);
 
 export default router;
 
