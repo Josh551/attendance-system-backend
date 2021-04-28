@@ -63,7 +63,7 @@ const getAttendanceLimited = asyncHandler(async (req, res) => {
 	const attendance = await Attendance.find({
 		classId: req.params.class_id
 	})
-		.sort({ createdAt: 'dsc' })
+		.sort({ createdAt: 'desc' })
 		.limit(20);
 
 	if (attendance) {
