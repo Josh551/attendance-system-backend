@@ -45,7 +45,7 @@ const updateAttendance = asyncHandler(async (req, res) => {
 // @route   GET /api/attendance/byClass/:class_id
 // @access  Private
 const getAttendanceByClass = asyncHandler(async (req, res) => {
-	const attendance = await Attendance.find({ classId: req.params.class_id }).sort({ createdAt: 'dsc' });
+	const attendance = await Attendance.find({ classId: req.params.class_id }).sort({ createdAt: 'desc' });
 
 	if (attendance) {
 		res.json({
