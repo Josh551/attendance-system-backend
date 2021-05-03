@@ -5,13 +5,15 @@ import {
   getStudentProfile,
   getStudents,
   getStudentsByClass,
+  deletedStudent
 } from '../controllers/studentController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
 
 router.route('/register').post(protect, admin, registerStudent);
 router.get('/test', (req, res) => res.json({ msg: 'Users Works' }));
-router.route('/:id').get(protect, getStudentProfile);
+router.route('/:id').get(protect, getStudentProfile).delete(protect, admin, deletedStudent);
 router.get('/', getStudents);
+router
 router.route('/byClass/:class_id').get(protect, getStudentsByClass);
 export default router;
 
