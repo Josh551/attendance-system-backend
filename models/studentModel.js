@@ -20,7 +20,7 @@ const studentSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  images: {
+  imageUrl: {
     type: [String],
     required: false,
   },

@@ -4,7 +4,7 @@ import Student from '../models/studentModel.js';
 // @route   POST /api/student/register
 // @access  Private/Admin
 const registerStudent = asyncHandler(async (req, res) => {
-  const { classes, usn, email, fullName, images } = req.body;
+  const { classes, usn, email, fullName, imageUrl } = req.body;
 
   const studentExists = await Student.findOne({ email });
 
@@ -18,7 +18,7 @@ const registerStudent = asyncHandler(async (req, res) => {
     usn,
     email,
     fullName,
-    images,
+    imageUrl,
     addedBy: req.admin._id,
   });
 
