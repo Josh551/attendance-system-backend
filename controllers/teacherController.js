@@ -31,9 +31,9 @@ const registerTeacher = asyncHandler(async (req, res) => {
   }
 
   const teacher = await Teacher.create({
+    fullName,
     empId,
     email,
-    fullName,
     password,
     addedBy: req.admin._id,
   });
