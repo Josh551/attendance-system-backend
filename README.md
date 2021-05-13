@@ -125,5 +125,16 @@ Limits the fetched attendance of students to 20 records.
 
 
 
+#### Headers
 
+Content-Type : application/json
+
+#### Request body (raw)
+
+ `{
+      "cctvId":"6",
+      "latitude":12.971879,
+      "longitude":77.595739,
+      "peopleCount": 25
+    }`
 
