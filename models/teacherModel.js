@@ -20,7 +20,6 @@ const teacherSchema = mongoose.Schema({
   },
   classes: {
     type: [mongoose.Schema.Types.ObjectId],
-    required: true,
     ref: 'class',
   },
   addedBy: {

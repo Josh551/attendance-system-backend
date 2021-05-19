@@ -21,7 +21,7 @@ const authTeacher = asyncHandler(async (req, res) => {
 // @route   POST /api/teacher/register
 // @access  Private/Admin
 const registerTeacher = asyncHandler(async (req, res) => {
-  const { empId, email, fullName, password } = req.body;
+  const { empId, email, fullName, password,classes } = req.body;
 
   const teacherExists = await Teacher.findOne({ email });
 
@@ -35,6 +35,7 @@ const registerTeacher = asyncHandler(async (req, res) => {
     empId,
     email,
     password,
+    classes,
     addedBy: req.admin._id,
   });
   const createdTeacher = await teacher.save();

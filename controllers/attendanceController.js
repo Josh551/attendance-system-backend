@@ -42,6 +42,7 @@ const updateAttendance = asyncHandler(async (req, res) => {
 		throw new Error('Attendance Document not found');
 	}
 });
+
 // @route   GET /api/attendance/byClass/:class_id
 // @access  Private
 const getAttendanceByClass = asyncHandler(async (req, res) => {
